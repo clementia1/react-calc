@@ -964,10 +964,55 @@ var App = function (_React$Component) {
     function App(props) {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+        _this.state = {
+            firstNumber: '',
+            secondNumber: '',
+            result: '',
+            operator: null
+        };
+
+        _this.handleNumbers = _this.handleNumbers.bind(_this);
+        _this.handleOperator = _this.handleOperator.bind(_this);
+        _this.сalculation = _this.сalculation.bind(_this);
+        return _this;
     }
 
     _createClass(App, [{
+        key: 'handleNumbers',
+        value: function handleNumbers(e) {
+            var number = e.target.name;
+            console.log(number);
+            if (this.state.operator === null) {
+                this.setState({ firstNumber: this.state.firstNumber + number });
+            } else {
+                this.setState({ secondNumber: this.state.secondNumber + number });
+            }
+        }
+    }, {
+        key: 'handleOperator',
+        value: function handleOperator(e) {
+            var currentOperator = e.target.name;
+            if (this.state.firstNumber !== "") {
+                this.setState({
+                    operator: currentOperator
+                });
+            }
+        }
+    }, {
+        key: '\u0441alculation',
+        value: function alculation() {
+            if (this.state.firstNumber !== undefined && this.state.secondNumber !== undefined && this.state.operator !== undefined) {
+                var currentResult = this.state.firstNumber + ' ' + this.state.operator + ' ' + this.state.secondNumber;
+                this.setState({
+                    result: currentResult,
+                    firstNumber: '',
+                    secondNumber: ''
+                });
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -979,7 +1024,13 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'item0' },
-                        'hellohellohellohellohellohellohellohello'
+                        this.state.firstNumber,
+                        ' ',
+                        this.state.operator,
+                        ' ',
+                        this.state.secondNumber,
+                        ' = ',
+                        this.state.result
                     ),
                     _react2.default.createElement(
                         'div',
@@ -1031,7 +1082,7 @@ var App = function (_React$Component) {
                         { className: 'item6' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '7', onClick: this.handleNumbers },
                             '7'
                         )
                     ),
@@ -1040,7 +1091,7 @@ var App = function (_React$Component) {
                         { className: 'item7' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '8', onClick: this.handleNumbers },
                             '8'
                         )
                     ),
@@ -1049,7 +1100,7 @@ var App = function (_React$Component) {
                         { className: 'item8' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '9', onClick: this.handleNumbers },
                             '9'
                         )
                     ),
@@ -1058,7 +1109,7 @@ var App = function (_React$Component) {
                         { className: 'item9' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '/', onClick: this.handleOperator },
                             '/'
                         )
                     ),
@@ -1076,7 +1127,7 @@ var App = function (_React$Component) {
                         { className: 'item11' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '4', onClick: this.handleNumbers },
                             '4'
                         )
                     ),
@@ -1085,7 +1136,7 @@ var App = function (_React$Component) {
                         { className: 'item12' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '5', onClick: this.handleNumbers },
                             '5'
                         )
                     ),
@@ -1094,7 +1145,7 @@ var App = function (_React$Component) {
                         { className: 'item13' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '6', onClick: this.handleNumbers },
                             '6'
                         )
                     ),
@@ -1103,7 +1154,7 @@ var App = function (_React$Component) {
                         { className: 'item14' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '*', onClick: this.handleOperator },
                             '*'
                         )
                     ),
@@ -1121,7 +1172,7 @@ var App = function (_React$Component) {
                         { className: 'item16' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '1', onClick: this.handleNumbers },
                             '1'
                         )
                     ),
@@ -1130,7 +1181,7 @@ var App = function (_React$Component) {
                         { className: 'item17' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '2', onClick: this.handleNumbers },
                             '2'
                         )
                     ),
@@ -1139,7 +1190,7 @@ var App = function (_React$Component) {
                         { className: 'item18' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '3', onClick: this.handleNumbers },
                             '3'
                         )
                     ),
@@ -1148,7 +1199,7 @@ var App = function (_React$Component) {
                         { className: 'item19' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '-', onClick: this.handleOperator },
                             '-'
                         )
                     ),
@@ -1157,7 +1208,7 @@ var App = function (_React$Component) {
                         { className: 'item20' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { onClick: this.сalculation },
                             '='
                         )
                     ),
@@ -1166,7 +1217,7 @@ var App = function (_React$Component) {
                         { className: 'item21' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '0', onClick: this.handleNumbers },
                             '0'
                         )
                     ),
@@ -1184,7 +1235,7 @@ var App = function (_React$Component) {
                         { className: 'item23' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '+', onClick: this.handleOperator },
                             '+'
                         )
                     )
