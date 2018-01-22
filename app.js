@@ -10,10 +10,12 @@ class App extends React.Component {
             secondNumber: '',
             result: '',
             operator: null,
+            calculationsCount: 0
         };
 
         this.handleNumbers = this.handleNumbers.bind(this);
         this.handleOperator = this.handleOperator.bind(this);
+        this.cleanAll = this.cleanAll.bind(this);
         this.сalculation = this.сalculation.bind(this);
     }
     
@@ -22,6 +24,8 @@ class App extends React.Component {
         console.log(number);
         if (this.state.operator === null) {
             this.setState({ firstNumber: this.state.firstNumber + number })
+        } else if (this.state.firstNumber === 0) {
+            this.setState({ firstNumber: +number })
         } else { 
             this.setState({ secondNumber: this.state.secondNumber + number })
         }
@@ -35,14 +39,58 @@ class App extends React.Component {
         });
         }
     }
+    
+    cleanLast() {
+        this.setState({            
+            secondNumber: '',
+            result: '',
+            operator: null,
+        });
+    }
+    
+    cleanAll() {
+        this.setState({
+            firstNumber: '',
+            secondNumber: '',
+            result: '',
+            operator: null,
+        });
+    }
 
     сalculation() {
-        if (this.state.firstNumber !== undefined && this.state.secondNumber !== undefined && this.state.operator !== undefined) {
-            let currentResult = `${this.state.firstNumber} ${this.state.operator} ${this.state.secondNumber}`;
+        if (this.state.firstNumber !== "" && this.state.secondNumber !== "" && this.state.operator !== null && this.state.operator !== "√") {
+            let currentResult = 0;
+            switch(this.state.operator) {
+                case '+':
+                    currentResult = +this.state.firstNumber + +this.state.secondNumber;
+                    break;
+                case '-':
+                    currentResult = +this.state.firstNumber - +this.state.secondNumber;
+                    break;
+                case '*':
+                    currentResult = +this.state.firstNumber * +this.state.secondNumber;
+                    break;
+                case '/':
+                    currentResult = +this.state.firstNumber / +this.state.secondNumber;
+                    break;
+            }
             this.setState({
                 result: currentResult,
-                firstNumber: '',
+                firstNumber: currentResult,
+                calculationsCount: this.state.calculationsCount + 1,
+/*                secondNumber: '',
+                operator: null*/
+            });
+        }
+        
+        if (this.state.firstNumber !== "" && this.state.operator === "√") {
+            let currentResult = 0;
+            currentResult = Math.sqrt(+this.state.firstNumber);
+            this.setState({
+                result: currentResult,
+                firstNumber: currentResult,
                 secondNumber: '',
+                operator: null
             });
         }
     }
@@ -54,9 +102,9 @@ class App extends React.Component {
                     <div className="item0">{this.state.firstNumber} {this.state.operator} {this.state.secondNumber} = {this.state.result}</div>
                     <div className="item1"><button>←</button></div>
                     <div className="item2"><button>CE</button></div>
-                    <div className="item3"><button>C</button></div>
+                    <div className="item3"><button onClick={this.cleanAll}>C</button></div>
                     <div className="item4"><button>±</button></div>
-                    <div className="item5"><button>√</button></div>
+                    <div className="item5"><button name="√" onClick={this.handleOperator}>√</button></div>
                     <div className="item6"><button name="7" onClick={this.handleNumbers}>7</button></div>
                     <div className="item7"><button name="8" onClick={this.handleNumbers}>8</button></div>
                     <div className="item8"><button name="9" onClick={this.handleNumbers}>9</button></div>

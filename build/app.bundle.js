@@ -970,11 +970,13 @@ var App = function (_React$Component) {
             firstNumber: '',
             secondNumber: '',
             result: '',
-            operator: null
+            operator: null,
+            calculationsCount: 0
         };
 
         _this.handleNumbers = _this.handleNumbers.bind(_this);
         _this.handleOperator = _this.handleOperator.bind(_this);
+        _this.cleanAll = _this.cleanAll.bind(_this);
         _this.сalculation = _this.сalculation.bind(_this);
         return _this;
     }
@@ -986,6 +988,8 @@ var App = function (_React$Component) {
             console.log(number);
             if (this.state.operator === null) {
                 this.setState({ firstNumber: this.state.firstNumber + number });
+            } else if (this.state.firstNumber === 0) {
+                this.setState({ firstNumber: +number });
             } else {
                 this.setState({ secondNumber: this.state.secondNumber + number });
             }
@@ -1001,14 +1005,60 @@ var App = function (_React$Component) {
             }
         }
     }, {
+        key: 'cleanLast',
+        value: function cleanLast() {
+            this.setState({
+                secondNumber: '',
+                result: '',
+                operator: null
+            });
+        }
+    }, {
+        key: 'cleanAll',
+        value: function cleanAll() {
+            this.setState({
+                firstNumber: '',
+                secondNumber: '',
+                result: '',
+                operator: null
+            });
+        }
+    }, {
         key: '\u0441alculation',
         value: function alculation() {
-            if (this.state.firstNumber !== undefined && this.state.secondNumber !== undefined && this.state.operator !== undefined) {
-                var currentResult = this.state.firstNumber + ' ' + this.state.operator + ' ' + this.state.secondNumber;
+            if (this.state.firstNumber !== "" && this.state.secondNumber !== "" && this.state.operator !== null && this.state.operator !== "√") {
+                var currentResult = 0;
+                switch (this.state.operator) {
+                    case '+':
+                        currentResult = +this.state.firstNumber + +this.state.secondNumber;
+                        break;
+                    case '-':
+                        currentResult = +this.state.firstNumber - +this.state.secondNumber;
+                        break;
+                    case '*':
+                        currentResult = +this.state.firstNumber * +this.state.secondNumber;
+                        break;
+                    case '/':
+                        currentResult = +this.state.firstNumber / +this.state.secondNumber;
+                        break;
+                }
                 this.setState({
                     result: currentResult,
-                    firstNumber: '',
-                    secondNumber: ''
+                    firstNumber: currentResult,
+                    calculationsCount: this.state.calculationsCount + 1
+                    /*                secondNumber: '',
+                                    operator: null*/
+                });
+            }
+
+            if (this.state.firstNumber !== "" && this.state.operator === "√") {
+                var _currentResult = 0;
+                _currentResult = Math.sqrt(+this.state.firstNumber);
+                this.setState({
+                    result: _currentResult,
+                    firstNumber: _currentResult,
+                    secondNumber: '',
+                    operator: null
                 });
             }
         }
@@ -1055,7 +1105,7 @@ var App = function (_React$Component) {
                         { className: 'item3' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { onClick: this.cleanAll },
                             'C'
                         )
                     ),
@@ -1073,7 +1123,7 @@ var App = function (_React$Component) {
                         { className: 'item5' },
                         _react2.default.createElement(
                             'button',
-                            null,
+                            { name: '\u221A', onClick: this.handleOperator },
                             '\u221A'
                         )
                     ),
